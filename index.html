@@ -1,45 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Auth System</title>
+  <meta charset="UTF-8">
+  <title>My Business Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: rgba(0,0,0,0.75);
+      padding: 20px;
+      border-radius: 12px;
+      width: 320px;
+      color: white;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    h2 { text-align: center; }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: none;
+      border-radius: 5px;
+      background: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover { background: #1e7e34; }
+
+    .hidden { display: none; }
+
+    .top {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .whatsapp {
+      background: #25D366;
+      margin-top: 10px;
+    }
+
+    .logout {
+      background: red;
+    }
+
+    .small {
+      font-size: 12px;
+      text-align: center;
+      margin-top: 5px;
+      color: #ccc;
+    }
+  </style>
 </head>
+
 <body>
 
-<h2>Create Account</h2>
+<div class="container">
 
-<input id="email" placeholder="Email"><br><br>
-<input id="password" type="password" placeholder="Password"><br><br>
+  <div class="top">
+    <h2>My Business</h2>
+    <p class="small">Secure Login Platform</p>
+  </div>
 
-<input id="phone" placeholder="+234XXXXXXXXXX"><br><br>
+  <!-- SIGN UP -->
+  <div id="signupBox">
+    <h3>Sign Up</h3>
+    <input id="signupEmail" placeholder="Email">
+    <input id="signupPassword" type="password" placeholder="Password">
+    <button onclick="signUp()">Create Account</button>
+  </div>
 
-<button onclick="signup()">Sign Up</button>
+  <!-- LOGIN -->
+  <div id="loginBox">
+    <h3>Login</h3>
+    <input id="loginEmail" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </div>
 
-<h3>Phone Verification</h3>
-<div id="recaptcha-container"></div>
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="hidden">
+    <h3>Welcome 🎉</h3>
+    <p id="userEmail"></p>
+    <p id="status"></p>
 
-<input id="code" placeholder="Enter OTP"><br><br>
-<button onclick="verifyCode()">Verify Phone</button>
-<script src="script.js"></script>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    <button class="whatsapp" onclick="openWhatsApp()">Contact WhatsApp</button>
+    <button class="logout" onclick="logout()">Logout</button>
+  </div>
 
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  RecaptchaVerifier,
-  signInWithPhoneNumber
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+</div>
 
-import {
-  getFirestore,
-  doc,
-  setDoc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<!-- FIREBASE (Compat version for beginners) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
-
-// 🔑 YOUR CONFIG (replace this)
-const firebaseConfig = {
+<script>
+  // 🔥 PUT YOUR FIREBASE CONFIG HERE
+  const firebaseConfig = {
   apiKey: "AIzaSyDLvK-Q4v1hZ2B-mtxZzNXs5m1tCS6LdGw",
   authDomain: "neobank-app-3ebbe.firebaseapp.com",
   projectId: "neobank-app-3ebbe",
@@ -47,60 +124,68 @@ const firebaseConfig = {
   messagingSenderId: "258331631270",
   appId: "1:258331631270:web:f4eeeb8ac1e3177bb21e67",
   measurementId: "G-9VRK9ZZXYS"
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-
-// 🔐 SIGNUP FUNCTION
-window.signup = async () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const phone = document.getElementById("phone").value;
-
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-    // Send email verification
-    await sendEmailVerification(userCredential.user);
-    alert("Verification email sent!");
-
-    // Save user to Firestore
-    await setDoc(doc(db, "users", userCredential.user.uid), {
-      email: email,
-      phone: phone,
-      verified: false,
-      createdAt: new Date()
-    });
-
-    // Setup reCAPTCHA
-    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
-
-    // Send OTP
-    const confirmationResult = await signInWithPhoneNumber(auth, phone, window.recaptchaVerifier);
-    window.confirmationResult = confirmationResult;
-
-    alert("OTP sent to phone!");
-
-  } catch (err) {
-    alert(err.message);
-  }
 };
 
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
 
-// 📱 VERIFY OTP
-window.verifyCode = async () => {
-  const code = document.getElementById("code").value;
+  // SIGN UP (with real email verification OTP)
+  function signUp() {
+    let email = signupEmail.value;
+    let password = signupPassword.value;
 
-  try {
-    await window.confirmationResult.confirm(code);
-    alert("Phone verified!");
-
-  } catch (err) {
-    alert("Invalid code");
+    auth.createUserWithEmailAndPassword(email, password)
+      .then(user => {
+        user.user.sendEmailVerification(); // REAL OTP EMAIL
+        alert("Verification email sent! Check inbox.");
+      })
+      .catch(err => alert(err.message));
   }
-};
+
+  // LOGIN
+  function login() {
+    let email = loginEmail.value;
+    let password = loginPassword.value;
+
+    auth.signInWithEmailAndPassword(email, password)
+      .then(user => {
+        if (user.user.emailVerified) {
+          showDashboard(user.user);
+        } else {
+          alert("Please verify your email first (check inbox).");
+        }
+      })
+      .catch(err => alert(err.message));
+  }
+
+  // DASHBOARD
+  function showDashboard(user) {
+    signupBox.classList.add("hidden");
+    loginBox.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+
+    userEmail.innerText = "Email: " + user.email;
+    status.innerText = "Account Verified ✔";
+  }
+
+  // LOGOUT
+  function logout() {
+    auth.signOut();
+    location.reload();
+  }
+
+  // WHATSAPP BUTTON
+  function openWhatsApp() {
+    window.open("https://wa.me/2349168144059", "_blank");
+  }
+
+  // AUTO LOGIN CHECK
+  auth.onAuthStateChanged(user => {
+    if (user && user.emailVerified) {
+      showDashboard(user);
+    }
+  });
+
 </script>
 
 </body>
