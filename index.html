@@ -1,114 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact Me</title>
-
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Find your dream home with our professional real estate services.">
+    <title>Real Estate Landing Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background: url('https://images.unsplash.com/photo-1472224366520-7eaee6da46e5') center/cover no-repeat;
+    color: #fff;
+    text-align: center;
+    padding: 100px;
 }
 
-body {
-  height: 100vh;
-  background: url('https://images.unsplash.com/photo-1492724441997-5dc865305da7') no-repeat center/cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.hero {
+    padding: 100px;
 }
 
-/* Dark overlay */
-.overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
+.navbar {
+    display: flex; justify-content: space-between;
+    padding: 10px 20px;
+    background-color: blue;
 }
 
-.container {
-  position: relative;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
-  padding: 40px;
-  border-radius: 15px;
-  text-align: center;
-  color: #fff;
-  width: 90%;
-  max-width: 400px;
-}
-
-h1 {
-  margin-bottom: 10px;
-}
-
-p {
-  font-size: 14px;
-  margin-bottom: 20px;
-  opacity: 0.8;
-}
-
-.buttons a {
-  display: block;
-  margin: 10px 0;
-  padding: 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  color: #fff;
-  font-weight: 500;
-  transition: 0.3s;
-}
-
-.whatsapp {
-  background: #25D366;
-}
-
-.email {
-  background: #007BFF;
-}
-
-.buttons a:hover {
-  opacity: 0.8;
-}
-
-#qrcode {
-  margin-top: 20px;
-}
-</style>
+/* WHATSAPP BUTTON */
+.whatsapp-button { position:fixed; bottom:40px; cursor btn }
+  </style>
 </head>
+<body id="top">
+    <!-- Navigation Bar -->
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo">DreamHome</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#properties">Properties</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="https://wa.me/1234567890" target="_blank" class="whatsapp-link">WhatsApp</a></li>
+            </ul>
+        </nav>
+        <div class="hero">
+            <h1>Find Your Dream Home</h1>
+            <p>Your trusted partner in real estate.</p>
+            <a href="#properties" class="btn-primary">View Listings</a>
+        </div>
+    </header>
 
-<body>
+    <!-- About Section -->
+    <section id="about" class="section about">
+        <h2>About Us</h2>
+        <p>We specialize in helping you find properties that suit your needs, offering unmatched expertise and exceptional service.</p>
+        <img src="https://images.unsplash.com/photo-1555066931-bf19f8f0f38b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fHJlYWwlMjBlc3RhdGUlMjBob3VzZXN8ZW58MHx8fHwxNjc3MjkyNzYy&ixlib=rb-4.0.3&q=80&w=800" alt="About Us">
+    </section>
 
-<div class="overlay"></div>
+    <!-- Properties Section -->
+    <section id="properties" class="section properties">
+        <h2>Featured Properties</h2>
+        <div class="property-list">
+            <!-- Property Items -->
+            <div class="property-item">
+                <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fHJlYWwlMjBlc3RhdGUlMjBob3VzZXN8ZW58MHx8fHwxNjc3MjcyNzYy&ixlib=rb-4.0.3&q=80&w=400" alt="Luxury Villa">
+                <h3>Luxury Villa</h3>
+                <p class="location">Los Angeles, CA</p>
+                <p>$2,000,000</p>
+            </div>
+            <div class="property-item">
+                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDR8fHJlYWwlMjBlc3RhdGUlMjBob3VzZXN8ZW58MHx8fHwxNjc3MjkyNzYy&ixlib=rb-4.0.3&q=80&w=400" alt="Modern Apartments">
+                <h3>Modern Apartment</h3>
+                <p class="location">New York, NY</p>
+                <p>$750,000</p>
+            </div>
+            <div class="property-item">
+                <img src="https://images.unsplash.com/photo-1560185127-6c6340c7dd87?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDUxfHJlYWwlMjBlc3RhdGUlMjBob3VzZXN8ZW58MHx8fHwxNjc3MjkyNzYy&ixlib=rb-4.0.3&q=80&w=400" alt="Cozy Suburban Home">
+                <h3>Cozy Suburban Home</h3>
+                <p class="location">Austin, TX</p>
+                <p>$350,000</p>
+            </div>
+            <div class="property-item">
+                <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDIyfHJlYWwlMjBlc3RhdGUlMjBob3VzZXN8ZW58MHx8fHwxNjc3MjkyNzYy&ixlib=rb-4.0.3&q=80&w=400" alt="Beachfront House">
+                <h3>Beachfront House</h3>
+                <p class="location">Miami, FL</p>
+                <p>$3,500,000</p>
+            </div>
+        </div>
+    </section>
 
-<div class="container">
-  <h1>Contact Me</h1>
-  <p>Let’s build your next website 🚀</p>
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section testimonials">
+        <h2>What Our Clients Say</h2>
+        <div class="testimonial-list">
+            <div class="testimonial">
+                <p>"DreamHome made buying our house a seamless experience. Highly recommended!"</p>
+                <h4>- Jane Doe</h4>
+            </div>
+            <div class="testimonial">
+                <p>"Their team found the perfect villa for my family. Excellent service."</p>
+                <h4>- John Smith</h4>
+            </div>
+        </div>
+    </section>
 
-  <div class="buttons">
-    <a class="whatsapp" href="https://wa.me/234XXXXXXXXXX" target="_blank">Chat on WhatsApp</a>
-    <a class="email" href="mailto:youremail@gmail.com">Send Email</a>
-  </div>
+    <!-- Footer with Contact Form -->
+    <footer id="contact" class="footer">
+        <h2>Contact Us</h2>
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <textarea id="message" placeholder="Your Message" required></textarea>
+            <button type="submit" class="btn-primary">Send Message</button>
+        </form>
+        <p>&copy; 2026 DreamHome.</p>
 
-  <div id="qrcode"></div>
-</div>
+        <!-- Back to Top Button & WhatsApp -->
+        <a href="#top" id="back-to-top" class="back-to-top">⬆ Top</a>
+        <a href="https://wa.me/2349168144059" target="_blank" class="whatsapp-button">💬 WhatsApp</a>
+    </footer>
 
-<!-- QRCode Library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
+  <script>
+    const validate... // Ensure JS added like backtop error buttons
+Here is the finalized **JavaScript** portion of the website with all features added correctly. This includes form validation, smooth scroll functionality for "Back to Top," and interactive enhancements.
 
-<script>
-new QRCode(document.getElementById("qrcode"), {
-  text: "https://wa.me/2349168144059",
-  width: 150,
-  height: 150
+---
+
+#### `script.js` (JavaScript code)
+```javascript
+// Element references
+const form = document.getElementById('contactForm');
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const messageInput = document.getElementById('message');
+const backToTopButton = document.getElementById('back-to-top');
+
+// FORM VALIDATION
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    // Get form values
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const message = messageInput.value.trim();
+    let isValid = true; // To track validation status
+
+    // Name validation
+    if (name === '') {
+        alert('Please enter your name.');
+        isValid = false;
+    }
+
+    // Email validation using regex
+    const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,6}$/;
+    if (!email.match(emailPattern)) {
+        alert('Please enter a valid email address.');
+        isValid = false;
+    }
+
+    // Message validation
+    if (message === '') {
+        alert('Please enter your message.');
+        isValid = false;
+    }
+
+    if (isValid) {
+        alert('Thank you! Your message has been sent successfully.');
+        form.reset(); // Clears the form
+    }
 });
-</script>
 
+// BACK TO TOP BUTTON BEHAVIOR
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        backToTopButton.style.display = 'block'; // Show "Back to Top" when scrolling
+    } else {
+        backToTopButton.style.display = 'none'; // Hide button when at top
+    }
+});
+
+// Smooth scroll back to top
+backToTopButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Smoothly scroll back to top
+});
+  </script>
 </body>
 </html>
