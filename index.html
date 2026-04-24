@@ -1,122 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Business Platform</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Clothing Store SaaS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d') no-repeat center center/cover;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:linear-gradient(to right,#0f172a,#1e293b);
+  color:white;
+}
 
-    .container {
-      background: rgba(0,0,0,0.75);
-      padding: 20px;
-      border-radius: 12px;
-      width: 320px;
-      color: white;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-    }
+/* AUTH BOX */
+.auth{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
 
-    h2 { text-align: center; }
+.box{
+  background:#111827;
+  padding:20px;
+  border-radius:10px;
+  width:320px;
+}
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 6px 0;
-      border: none;
-      border-radius: 5px;
-    }
+input{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+}
 
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 8px;
-      border: none;
-      border-radius: 5px;
-      background: #28a745;
-      color: white;
-      cursor: pointer;
-    }
+button{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  background:#22c55e;
+  border:none;
+  color:white;
+  border-radius:5px;
+  cursor:pointer;
+}
 
-    button:hover { background: #1e7e34; }
+button:hover{background:#16a34a}
 
-    .hidden { display: none; }
+.hidden{display:none}
 
-    .top {
-      text-align: center;
-      margin-bottom: 10px;
-    }
+/* DASHBOARD */
+.dashboard{
+  padding:20px;
+}
 
-    .whatsapp {
-      background: #25D366;
-      margin-top: 10px;
-    }
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    .logout {
-      background: red;
-    }
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+  margin-top:20px;
+}
 
-    .small {
-      font-size: 12px;
-      text-align: center;
-      margin-top: 5px;
-      color: #ccc;
-    }
-  </style>
+.card{
+  background:#1f2937;
+  padding:10px;
+  border-radius:10px;
+}
+
+.card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-radius:8px;
+}
+</style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- AUTH -->
+<div class="auth" id="authBox">
+  <div class="box">
+    <h2>Clothing Store</h2>
 
-  <div class="top">
-    <h2>My Business</h2>
-    <p class="small">Secure Login Platform</p>
-  </div>
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
 
-  <!-- SIGN UP -->
-  <div id="signupBox">
-    <h3>Sign Up</h3>
-    <input id="signupEmail" placeholder="Email">
-    <input id="signupPassword" type="password" placeholder="Password">
-    <button onclick="signUp()">Create Account</button>
-  </div>
-
-  <!-- LOGIN -->
-  <div id="loginBox">
-    <h3>Login</h3>
-    <input id="loginEmail" placeholder="Email">
-    <input id="loginPassword" type="password" placeholder="Password">
+    <button onclick="signup()">Sign Up</button>
     <button onclick="login()">Login</button>
   </div>
+</div>
 
-  <!-- DASHBOARD -->
-  <div id="dashboard" class="hidden">
-    <h3>Welcome 🎉</h3>
-    <p id="userEmail"></p>
-    <p id="status"></p>
+<!-- DASHBOARD -->
+<div id="dashboard" class="hidden dashboard">
 
-    <button class="whatsapp" onclick="openWhatsApp()">Contact WhatsApp</button>
-    <button class="logout" onclick="logout()">Logout</button>
+  <div class="header">
+    <h2>Store Dashboard</h2>
+    <button onclick="logout()">Logout</button>
   </div>
+
+  <p id="userEmail"></p>
+
+  <div class="products" id="products"></div>
 
 </div>
 
-<!-- FIREBASE (Compat version for beginners) -->
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
-  // 🔥 PUT YOUR FIREBASE CONFIG HERE
-  const firebaseConfig = {
+// 🔥 PASTE YOUR CONFIG
+const firebaseConfig = {
   apiKey: "AIzaSyDLvK-Q4v1hZ2B-mtxZzNXs5m1tCS6LdGw",
   authDomain: "neobank-app-3ebbe.firebaseapp.com",
   projectId: "neobank-app-3ebbe",
@@ -126,66 +128,99 @@
   measurementId: "G-9VRK9ZZXYS"
 };
 
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-  // SIGN UP (with real email verification OTP)
-  function signUp() {
-    let email = signupEmail.value;
-    let password = signupPassword.value;
+/* SIGNUP */
+function signup(){
+  let email=email.value;
+  let password=password.value;
 
-    auth.createUserWithEmailAndPassword(email, password)
-      .then(user => {
-        user.user.sendEmailVerification(); // REAL OTP EMAIL
-        alert("Verification email sent! Check inbox.");
-      })
-      .catch(err => alert(err.message));
-  }
+  auth.createUserWithEmailAndPassword(email,password)
+  .then(user=>{
+    user.user.sendEmailVerification();
+    alert("Check email for OTP verification");
+  })
+  .catch(e=>alert(e.message));
+}
 
-  // LOGIN
-  function login() {
-    let email = loginEmail.value;
-    let password = loginPassword.value;
+/* LOGIN */
+function login(){
+  let email=document.getElementById("email").value;
+  let password=document.getElementById("password").value;
 
-    auth.signInWithEmailAndPassword(email, password)
-      .then(user => {
-        if (user.user.emailVerified) {
-          showDashboard(user.user);
-        } else {
-          alert("Please verify your email first (check inbox).");
-        }
-      })
-      .catch(err => alert(err.message));
-  }
-
-  // DASHBOARD
-  function showDashboard(user) {
-    signupBox.classList.add("hidden");
-    loginBox.classList.add("hidden");
-    dashboard.classList.remove("hidden");
-
-    userEmail.innerText = "Email: " + user.email;
-    status.innerText = "Account Verified ✔";
-  }
-
-  // LOGOUT
-  function logout() {
-    auth.signOut();
-    location.reload();
-  }
-
-  // WHATSAPP BUTTON
-  function openWhatsApp() {
-    window.open("https://wa.me/2349168144059", "_blank");
-  }
-
-  // AUTO LOGIN CHECK
-  auth.onAuthStateChanged(user => {
-    if (user && user.emailVerified) {
-      showDashboard(user);
+  auth.signInWithEmailAndPassword(email,password)
+  .then(user=>{
+    if(user.user.emailVerified){
+      showDashboard(user.user);
+    }else{
+      alert("Verify your email first");
     }
+  })
+  .catch(e=>alert(e.message));
+}
+
+/* AUTH STATE */
+auth.onAuthStateChanged(user=>{
+  if(user && user.emailVerified){
+    showDashboard(user);
+  }
+});
+
+/* DASHBOARD */
+function showDashboard(user){
+  document.getElementById("authBox").style.display="none";
+  document.getElementById("dashboard").classList.remove("hidden");
+  document.getElementById("userEmail").innerText=user.email;
+
+  loadProducts();
+}
+
+/* LOAD PRODUCTS FROM DATABASE */
+function loadProducts(){
+  db.collection("products").get().then(snapshot=>{
+    let html="";
+    snapshot.forEach(doc=>{
+      let p=doc.data();
+      html+=`
+      <div class="card">
+        <img src="${p.image}">
+        <h4>${p.name}</h4>
+        <p>$${p.price}</p>
+      </div>`;
+    });
+    document.getElementById("products").innerHTML=html;
+  });
+}
+
+/* LOGOUT */
+function logout(){
+  auth.signOut();
+  location.reload();
+}
+
+/* FIRST TIME: ADD PRODUCTS TO DATABASE */
+function seedProducts(){
+  const products=[
+    {name:"Classic T-Shirt",price:15,image:"https://images.unsplash.com/photo-1520975916090"},
+    {name:"Black Hoodie",price:30,image:"https://images.unsplash.com/photo-1520975682030"},
+    {name:"Blue Jeans",price:40,image:"https://images.unsplash.com/photo-1541099649105"},
+    {name:"Sneakers",price:60,image:"https://images.unsplash.com/photo-1528701800489"},
+    {name:"Jacket",price:80,image:"https://images.unsplash.com/photo-1520975922284"},
+    {name:"Cap",price:10,image:"https://images.unsplash.com/photo-1520975869010"},
+    {name:"Shorts",price:20,image:"https://images.unsplash.com/photo-1520975851970"},
+    {name:"Sweater",price:35,image:"https://images.unsplash.com/photo-1520975971234"},
+    {name:"Tracksuit",price:55,image:"https://images.unsplash.com/photo-1520975988888"},
+    {name:"Shirt",price:25,image:"https://images.unsplash.com/photo-1520975956375"}
+  ];
+
+  products.forEach(p=>{
+    db.collection("products").add(p);
   });
 
+  alert("Products uploaded!");
+}
 </script>
 
 </body>
